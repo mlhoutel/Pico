@@ -1,5 +1,9 @@
 # Pico Project
 
+## Browse
+
+See the deployement [here](https://mlhoutel.github.io/Pico/)
+
 ## Using
 
 - https://johanpeitz.itch.io/picocad

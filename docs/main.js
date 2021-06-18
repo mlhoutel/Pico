@@ -1,4 +1,4 @@
-import PicoCADViewer from '../libs/pico-cad-viewer.esm.js'
+import PicoCADViewer from './libs/pico-cad-viewer.esm.js'
 
 // Wait for the document to be fully loaded before calling the functions
 document.addEventListener('DOMContentLoaded', function () {
