@@ -24,7 +24,7 @@ class Player {
 
     //console.log(this.keys)
 
-    // acceleration
+    // ACCELERATION
     if (this.keys[KEY_UP]) {
       this.velocity.y += SPEED
     }
@@ -32,13 +32,13 @@ class Player {
       this.velocity.y -= SPEED
     }
     if (this.keys[KEY_LEFT]) {
-      this.velocity.x += SPEED
-    }
-    if (this.keys[KEY_RIGHT]) {
       this.velocity.x -= SPEED
     }
+    if (this.keys[KEY_RIGHT]) {
+      this.velocity.x += SPEED
+    }
 
-    // friction
+    // FRICTION
     if (Math.abs(this.velocity.x) > 0) {
       this.velocity.x = Math.sign(this.velocity.x) * Math.max(0, Math.abs(this.velocity.x) - FRICTION)
     }
@@ -47,18 +47,22 @@ class Player {
       this.velocity.y = Math.sign(this.velocity.y) * Math.max(0, Math.abs(this.velocity.y) - FRICTION)
     }
 
+    // LIMITATION
     if (Math.abs(this.velocity.x) > MAX_SPEED) {
       this.velocity.x = Math.sign(this.velocity.x) * MAX_SPEED
     }
+
     if (Math.abs(this.velocity.y) > MAX_SPEED) {
       this.velocity.y = Math.sign(this.velocity.y) * MAX_SPEED
     }
 
+    console.log(this.velocity)
+
     const rot_x = Math.sin(this.rotation.y)
     const rot_z = Math.cos(this.rotation.y)
 
-    this.position.x += rot_x * this.velocity.x
-    this.position.z += rot_z * this.velocity.y
+    this.position.x += rot_z * this.velocity.x - rot_x * this.velocity.y
+    this.position.z += rot_z * this.velocity.y - rot_x * this.velocity.x
   }
 
   handleEvent = function (e) {
