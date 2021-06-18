@@ -1,0 +1,171 @@
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  --bg: #383838;
+  --bg2: #404040;
+  --fg: #fff;
+  --fg2: #b0b0b0;
+  --border: #606060;
+  --recording: #ffff00;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+.drag {
+  outline: 4px dashed #00ff88;
+  outline-offset: 0px;
+}
+
+p {
+  margin: 0 0 2px;
+}
+
+a {
+  color: inherit;
+}
+
+canvas {
+  display: block;
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  margin: 0 0 6px;
+}
+label:nth-of-type(n + 2) {
+  margin-left: 8px;
+}
+label > * {
+  margin: 0 0 0 6px;
+}
+
+#viewport {
+  margin: 0 auto 10px;
+  background: #000;
+  max-width: 100%;
+}
+#viewport.loaded {
+  cursor: grab;
+}
+#viewport.grabbing {
+  cursor: grabbing;
+}
+
+output {
+  opacity: 0.6;
+}
+
+#info,
+footer {
+  margin: 0 auto 12px;
+}
+
+#info-details {
+  width: 100%;
+}
+
+#texture {
+  width: 256px;
+  width: 240px;
+  margin-right: 10px;
+  background: #000;
+  flex-shrink: 0;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: pixelated;
+}
+
+select,
+button {
+  border: 1px solid var(--border);
+  font: inherit;
+  color: inherit;
+  background: var(--bg);
+}
+button {
+  cursor: pointer;
+}
+button:hover {
+  border-color: var(--fg2);
+}
+input[type="color"] {
+  border: 1px solid var(--border);
+}
+button.link {
+  font: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+  display: inline;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+hr {
+  max-width: 30px;
+  border: none;
+  border-bottom: 2px dotted var(--border);
+  margin: 10px auto;
+}
+
+#stats {
+  color: var(--fg2);
+}
+
+footer {
+  color: var(--fg2);
+}
+footer li {
+  display: inline;
+}
+
+.popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0, 0, 0, 0.8);
+  width: 100%;
+  height: 100%;
+  padding: 20px 10px;
+}
+.popup > * {
+  max-width: 700px;
+  margin: auto;
+}
+
+.recording {
+  outline: 1px solid var(--recording);
+}
+
+@media (max-width: 699px) {
+  #info-details {
+    margin-bottom: 8px;
+  }
+}
+
+@media (min-width: 700px) {
+  #info,
+  footer {
+    max-width: 580px;
+  }
+  #info {
+    display: flex;
+  }
+  #info-details {
+    order: 1;
+  }
+}
