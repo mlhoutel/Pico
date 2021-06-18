@@ -15,6 +15,6 @@ See the deployement [here](https://mlhoutel.github.io/Pico/)
 ```
 npm install
 npm install http-server -g
-http-server -c-1 (for no cache)
-chrome http://localhost:8080/docs
+http-server -a localhost -p 8080 -c-1
+start chrome http://localhost:8080/docs
 ```
