@@ -8,11 +8,17 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const viewer = new PicoCADViewer({
     canvas: myCanvas,
-    resolution: { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight, scale: 1 },
   })
 
   // Load models from file, string or URL.
   viewer.load('./example.txt')
+
+  /* AUDIO
+  document.body.addEventListener('mousemove', function () {
+    var audio = new Audio('https://interactive-examples.mdn.mozilla.net/media/examples/t-rex-roar.mp3')
+    audio.play()
+  })
+  */
 
   // Draw the model manually or start a draw loop.
   let time = 0 // timer
@@ -27,7 +33,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     //
     // This callback is called before every frame is drawn.
-    viewer.setTurntableCamera(10, time, time)
+    viewer.setTurntableCamera(Math.sin(time) * 2 + 10, time, time)
     viewer.setLightDirectionFromCamera()
   })
 })
