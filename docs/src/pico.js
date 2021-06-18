@@ -2,6 +2,8 @@ import PicoCADViewer from '../libs/pico-cad-viewer.esm.js'
 import vec3 from './maths.js'
 import Player from './player.js'
 
+const RESOLUTION = 6
+
 class Pico {
   constructor(canvas) {
     this.canvas = canvas
@@ -62,7 +64,7 @@ class Pico {
 
       if (this.time - this.refresh > this.interval) {
         this.refresh = this.time
-        this.viewer.setResolution(document.documentElement.clientWidth, document.documentElement.clientHeight, 1)
+        this.viewer.setResolution(document.documentElement.clientWidth / RESOLUTION, document.documentElement.clientHeight / RESOLUTION, RESOLUTION)
       }
 
       this.player.Update(dt)
