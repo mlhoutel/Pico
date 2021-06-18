@@ -24,19 +24,15 @@ class Pico {
       //renderMode: 'color',
     })
 
-    //viewer.load('./models/submarine.txt')
     this.viewer.load('./models/vehicles.txt')
+    this.viewer.load('./models/submarine.txt')
   }
 
   _initialize_events() {
-    // pointer lock object forking for cross browser
-    console.log(this.canvas)
     this.canvas.requestPointerLock = this.canvas.requestPointerLock || this.canvas.mozRequestPointerLock
-
     document.exitPointerLock = document.exitPointerLock || document.mozExitPointerLock
 
     const self = this
-
     this.canvas.onclick = function () {
       self.canvas.requestPointerLock()
     }

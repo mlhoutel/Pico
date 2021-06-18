@@ -2,7 +2,7 @@
 
 ## Browse
 
-See the deployement [here](https://mlhoutel.github.io/Pico/)
+:warning: [ENTER THE EXPERIMENT](https://mlhoutel.github.io/Pico/) :warning:
 
 ## Using
 
