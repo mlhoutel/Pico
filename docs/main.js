@@ -8,19 +8,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
   const viewer = new PicoCADViewer({
     canvas: myCanvas,
-    resolution: { width: 640, height: 480, scale: 1 },
+    resolution: { width: document.documentElement.clientWidth, height: document.documentElement.clientHeight, scale: 1 },
   })
 
   // Load models from file, string or URL.
   viewer.load('./example.txt')
 
   // Draw the model manually or start a draw loop.
-  let spin = 0
-
+  let time = 0 // timer
+  let refresh = 0 // last canvas refresh
+  let interval = 0.05 // refresh rate
   viewer.startDrawLoop((dt) => {
+    time += dt
+
+    if (time - refresh > interval) {
+      refresh = time
+      viewer.setResolution(document.documentElement.clientWidth, document.documentElement.clientHeight, 1)
+    }
+    //
     // This callback is called before every frame is drawn.
-    spin += dt
-    viewer.setTurntableCamera(10, 0, 0.1)
+    viewer.setTurntableCamera(10, time, time)
     viewer.setLightDirectionFromCamera()
   })
 })
