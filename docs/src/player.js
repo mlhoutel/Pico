@@ -1,8 +1,8 @@
 import vec3 from './maths.js'
 
-const SPEED = 0.1
-const MAX_SPEED = 0.5
-const FRICTION = 0.05
+const SPEED = 0.05
+const MAX_SPEED = 0.2
+const FRICTION = 0.02
 const SIZE = 1.7
 const KEY_UP = 'KeyW'
 const KEY_DOWN = 'KeyS'
@@ -22,8 +22,6 @@ class Player {
     this.rotation.y = (this.mouse.x / window.innerWidth) * Math.PI
     this.rotation.x = this.mouse.y / window.innerHeight - 0.5
 
-    //console.log(this.keys)
-
     // ACCELERATION
     if (this.keys[KEY_UP]) {
       this.velocity.y += SPEED
@@ -32,10 +30,10 @@ class Player {
       this.velocity.y -= SPEED
     }
     if (this.keys[KEY_LEFT]) {
-      this.velocity.x -= SPEED
+      this.velocity.x += SPEED
     }
     if (this.keys[KEY_RIGHT]) {
-      this.velocity.x += SPEED
+      this.velocity.x -= SPEED
     }
 
     // FRICTION
@@ -56,13 +54,11 @@ class Player {
       this.velocity.y = Math.sign(this.velocity.y) * MAX_SPEED
     }
 
-    console.log(this.velocity)
-
     const rot_x = Math.sin(this.rotation.y)
     const rot_z = Math.cos(this.rotation.y)
 
     this.position.x += rot_z * this.velocity.x - rot_x * this.velocity.y
-    this.position.z += rot_z * this.velocity.y - rot_x * this.velocity.x
+    this.position.z += rot_z * this.velocity.y + rot_x * this.velocity.x
   }
 
   handleEvent = function (e) {
