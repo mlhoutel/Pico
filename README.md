@@ -2,7 +2,7 @@
 
 ## Browse
 
-:warning: [ENTER THE EXPERIMENT](https://mlhoutel.github.io/Pico/) :warning:
+[:warning: ENTER THE EXPERIMENT :warning:](https://mlhoutel.github.io/Pico/)
 
 ## Using
 
