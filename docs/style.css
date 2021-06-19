@@ -20,4 +20,14 @@ body {
 
 canvas {
   display: block;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+}
+
+#stage {
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-crisp-edges;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }

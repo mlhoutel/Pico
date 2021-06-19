@@ -10,11 +10,11 @@ const KEY_LEFT = 'KeyA'
 const KEY_RIGHT = 'KeyD'
 
 class Player {
-  constructor(position = new vec3(0, -SIZE, 0), rotation = new vec3(0, 0, 0), velocity = new vec3(0, 0, 0)) {
+  constructor(position = new vec3(0, -SIZE, 0), rotation = new vec3(), velocity = new vec3()) {
     this.position = position
     this.rotation = rotation
     this.velocity = velocity
-    this.mouse = new vec3(0, 0, 0)
+    this.mouse = new vec3()
     this.keys = {}
   }
 

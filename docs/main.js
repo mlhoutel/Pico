@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
   console.log('loaded...')
 
   const canvas = document.getElementById('canvas')
+  const stage = document.getElementById('stage')
 
-  const pico = new Pico(canvas)
+  const pico = new Pico(canvas, stage)
 })
