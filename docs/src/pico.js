@@ -30,6 +30,7 @@ class Pico {
     this.viewer.load('./models/submarine.txt')
     this.viewer.load('./models/vehicles.txt')
     this.draw.addSprite('cursor', './sprites/cursor.png', new vec3(0.5, 0.5, 0), true)
+    this.draw.addText('label', 'Experiment : Going on...', new vec3(0.02, 0.95, 0), true, 30, 'white', 0)
   }
 
   _initialize_events() {
