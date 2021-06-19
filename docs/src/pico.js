@@ -68,6 +68,9 @@ class Pico {
         this.viewer.setResolution(document.documentElement.clientWidth / RESOLUTION, document.documentElement.clientHeight / RESOLUTION, RESOLUTION)
         this.stage.width = document.documentElement.clientWidth
         this.stage.height = document.documentElement.clientHeight
+
+        this.draw.removeText('counter')
+        this.draw.addText('counter', `${Math.floor(dt * 100000) / 1000}:${dt.toString(16)}`, new vec3(0.51, 0.51, 0), true, 15, 'white', 0)
       }
 
       this.player.Update(dt)

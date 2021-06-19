@@ -70,19 +70,19 @@ class Draw {
   }
 
   removeSprite(name) {
-    const id = this.sprites.find((e) => {
+    const id = this.sprites.findIndex((e) => {
       return e.name == name
     })
-    if (id != -1) {
+    if (id > -1) {
       this.sprites.splice(id, 1)
     }
   }
 
   removeText(name) {
-    const id = this.texts.find((e) => {
+    const id = this.texts.findIndex((e) => {
       return e.name == name
     })
-    if (id != -1) {
+    if (id > -1) {
       this.texts.splice(id, 1)
     }
   }
