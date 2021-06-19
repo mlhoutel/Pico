@@ -4,6 +4,8 @@ const SPEED = 0.05
 const MAX_SPEED = 0.2
 const FRICTION = 0.02
 const SIZE = 1.7
+const DAMPING = 0.15
+const DSPEED = 14
 const KEY_UP = 'KeyW'
 const KEY_DOWN = 'KeyS'
 const KEY_LEFT = 'KeyA'
@@ -16,9 +18,11 @@ class Player {
     this.velocity = velocity
     this.mouse = new vec3()
     this.keys = {}
+    this.time = 0
   }
 
   Update(dt) {
+    this.time += dt
     this.rotation.y = (this.mouse.x / window.innerWidth) * Math.PI
     this.rotation.x = this.mouse.y / window.innerHeight - 0.5
 
@@ -59,6 +63,10 @@ class Player {
 
     this.position.x += rot_z * this.velocity.x - rot_x * this.velocity.y
     this.position.z += rot_z * this.velocity.y + rot_x * this.velocity.x
+
+    if (Math.abs(this.velocity.x) + Math.abs(this.velocity.y) > 0 || Math.abs(this.position.y) - Math.abs(SIZE) > DAMPING / 2) {
+      this.position.y = -SIZE + DAMPING * Math.cos(this.time * DSPEED)
+    }
   }
 
   handleEvent = function (e) {

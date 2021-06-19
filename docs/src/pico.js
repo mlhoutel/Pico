@@ -27,8 +27,8 @@ class Pico {
       //renderMode: 'color',
     })
 
-    //this.viewer.load('./models/vehicles.txt')
     this.viewer.load('./models/submarine.txt')
+    this.viewer.load('./models/vehicles.txt')
     this.draw.addSprite('cursor', './sprites/cursor.png', new vec3(0.5, 0.5, 0), true)
   }
 
