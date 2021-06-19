@@ -47,6 +47,7 @@ class Draw {
     this.stage = stage
     this.sprites = []
     this.texts = []
+    this.background = 'rgba(0,0,0,0)'
   }
 
   addSprite(name, src, pos = new vec3(), abs = false, size = new vec3(), index = 0) {
@@ -60,6 +61,9 @@ class Draw {
   drawSprites() {
     if (this.stage.getContext) {
       let ctx = this.stage.getContext('2d')
+      ctx.fillStyle = this.background
+      ctx.fillRect(0, 0, this.stage.width, this.stage.height)
+
       for (let i = 0; i < this.sprites.length; i++) {
         this.sprites[i].draw(this.stage, ctx)
       }

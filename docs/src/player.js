@@ -19,25 +19,31 @@ class Player {
     this.mouse = new vec3()
     this.keys = {}
     this.time = 0
+    this.lock_move = false
+    this.lock_camera = false
   }
 
   Update(dt) {
     this.time += dt
-    this.rotation.y = (this.mouse.x / window.innerWidth) * Math.PI
-    this.rotation.x = this.mouse.y / window.innerHeight - 0.5
+    if (!this.lock_camera) {
+      this.rotation.y = (this.mouse.x / window.innerWidth) * Math.PI
+      this.rotation.x = this.mouse.y / window.innerHeight - 0.5
+    }
 
-    // ACCELERATION
-    if (this.keys[KEY_UP]) {
-      this.velocity.y += SPEED
-    }
-    if (this.keys[KEY_DOWN]) {
-      this.velocity.y -= SPEED
-    }
-    if (this.keys[KEY_LEFT]) {
-      this.velocity.x += SPEED
-    }
-    if (this.keys[KEY_RIGHT]) {
-      this.velocity.x -= SPEED
+    if (!this.lock_move) {
+      if (this.keys[KEY_UP]) {
+        // ACCELERATION
+        this.velocity.y += SPEED
+      }
+      if (this.keys[KEY_DOWN]) {
+        this.velocity.y -= SPEED
+      }
+      if (this.keys[KEY_LEFT]) {
+        this.velocity.x += SPEED
+      }
+      if (this.keys[KEY_RIGHT]) {
+        this.velocity.x -= SPEED
+      }
     }
 
     // FRICTION

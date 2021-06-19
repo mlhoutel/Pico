@@ -2,6 +2,7 @@ import PicoCADViewer from '../libs/pico-cad-viewer.esm.js'
 import vec3 from './maths.js'
 import Player from './player.js'
 import Draw from './draw.js'
+import Scenes from './scenes.js'
 
 const RESOLUTION = 6
 
@@ -10,7 +11,6 @@ class Pico {
     this.canvas = canvas
     this.stage = stage
     this.player = new Player()
-    this.draw = new Draw(this.stage)
 
     this.time = 0 // timer
     this.refresh = 0 // last canvas refresh
@@ -27,10 +27,8 @@ class Pico {
       //renderMode: 'color',
     })
 
-    this.viewer.load('./models/submarine.txt')
-    this.viewer.load('./models/vehicles.txt')
-    this.draw.addSprite('cursor', './sprites/cursor.png', new vec3(0.5, 0.5, 0), true)
-    this.draw.addText('label', 'Experiment : Going on...', new vec3(0.02, 0.95, 0), true, 30, 'white', 0)
+    this.draw = new Draw(this.stage)
+    this.scenes = new Scenes(this.viewer, this.draw, this.player)
   }
 
   _initialize_events() {
@@ -68,12 +66,10 @@ class Pico {
         this.viewer.setResolution(document.documentElement.clientWidth / RESOLUTION, document.documentElement.clientHeight / RESOLUTION, RESOLUTION)
         this.stage.width = document.documentElement.clientWidth
         this.stage.height = document.documentElement.clientHeight
-
-        this.draw.removeText('counter')
-        this.draw.addText('counter', `${Math.floor(dt * 100000) / 1000}:${dt.toString(16)}`, new vec3(0.51, 0.51, 0), true, 15, 'white', 0)
       }
 
       this.player.Update(dt)
+      this.scenes.Update(dt)
 
       this._draw_canvas()
       this._draw_stage()
