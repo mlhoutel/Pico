@@ -1,6 +1,6 @@
 import vec3 from './maths.js'
 
-const INITIAL_SCENE = 0
+const INITIAL_SCENE = 1
 
 class Scene {
   constructor(name, active, states, Initialise, Update, Remove) {
@@ -68,14 +68,44 @@ class Scenes {
         },
       },
       {
-        name: 'scene1',
+        name: 'scene1_0',
+        states: { time: 0, refresh: 0, interval: 0.1 },
+        initialise: function () {
+          self.viewer.load('./models/vehicles.txt')
+          self.draw.addText('label', 'Experiment : Going on...', new vec3(0.02, 0.95, 0), true, 30, 'white')
+          self.draw.addSprite('compass', './sprites/compass.png', new vec3(20, 20, 0), false, new vec3(5, 5, 0), true, 16, 0)
+        },
+        update: function (dt) {
+          const target = new vec3(0, 0, 0)
+          const toggle_dist = 5
+
+          const compass = self.draw.getSprite('compass')
+          if (compass != undefined) {
+            // compass.index = (compass.index + 1) % compass.num_frame
+            const angle = Math.atan2(self.player.position.y - target.y, self.player.position.x - target.x) + Math.PI
+            // console.log(angle)
+            compass.index = Math.floor((self.player.rotation.y % Math.PI) * (compass.num_frame / Math.PI))
+          }
+          self.draw.removeText('button')
+          if (Math.sqrt(Math.pow(self.player.position.x - target.x, 2), Math.pow(self.player.position.y - target.y, 2)) < toggle_dist) {
+            self.draw.addText('button', '[Press E]', new vec3(0.49, 0.49, 0), true, 15, 'white')
+            if (self.player.keys['KeyE']) {
+              this.active = false
+            }
+          }
+        },
+        remove: function () {
+          self.draw.removeText('button')
+          self.draw.removeText('label')
+          self.draw.removeSprite('compass')
+        },
+      },
+      {
+        name: 'scene1_1',
         states: {},
         initialise: function () {
-          console.log('test')
           // this.viewer.load('./models/submarine.txt')
-          self.viewer.load('./models/vehicles.txt')
-          self.draw.addSprite('cursor', './sprites/cursor.png', new vec3(0.5, 0.5, 0), true)
-          self.draw.addText('label', 'Experiment : Going on...', new vec3(0.02, 0.95, 0), true, 30, 'white', 0)
+          self.draw.addSprite('cursor', './sprites/cursor.png', new vec3(0.5, 0.5, 0), true, new vec3(1, 1, 0), true)
         },
         update: function (dt) {
           self.draw.removeText('counter')
@@ -83,7 +113,6 @@ class Scenes {
         },
         remove: function () {
           self.draw.removeSprite('cursor', './sprites/cursor.png', new vec3(0.5, 0.5, 0), true)
-          self.draw.removeText('label', 'Experiment : Going on...', new vec3(0.02, 0.95, 0), true, 30, 'white', 0)
         },
       },
     ]
