@@ -15,8 +15,8 @@ export default function (ctx) {
 
       ctx.draw.background = `rgba(0, 0, 0, 0)`
 
-      ctx.viewer.load(ctx.getPathModel('vehicles.txt'))
-      ctx.player.position.z = -100
+      ctx.viewer.load(ctx.getPathModel('vehicles2.txt'))
+      ctx.player.position.z = -10
     },
     update: function (dt) {
       if (this.states.timer > this.states.duration) {
