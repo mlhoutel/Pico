@@ -2,7 +2,7 @@ import PicoCADViewer from '../libs/pico-cad-viewer.esm.js'
 import vec3 from './maths.js'
 import Player from './player.js'
 import Draw from './draw.js'
-import Scenes from './scenes.js'
+import Story from './scenes/story.js'
 
 const RESOLUTION = 6
 
@@ -28,7 +28,7 @@ class Pico {
     })
 
     this.draw = new Draw(this.stage)
-    this.scenes = new Scenes(this.viewer, this.draw, this.player)
+    this.story = new Story(this.viewer, this.draw, this.player)
   }
 
   _initialize_events() {
@@ -69,7 +69,7 @@ class Pico {
       }
 
       this.player.Update(dt)
-      this.scenes.Update(dt)
+      this.story.Update(dt)
 
       this._draw_canvas()
       this._draw_stage()

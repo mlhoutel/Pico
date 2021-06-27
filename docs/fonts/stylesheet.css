@@ -1,0 +1,9 @@
+@font-face {
+    font-family: 'Kongtext';
+    src: url('KongtextRegular.woff2') format('woff2'),
+        url('KongtextRegular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+

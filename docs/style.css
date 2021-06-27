@@ -2,8 +2,16 @@
   box-sizing: border-box;
 }
 
+@font-face {
+  font-family: 'Kongtext';
+  src: url('fonts/KongtextRegular.woff2') format('woff2'), url('fonts/KongtextRegular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
-  --bg: #383838;
+  --bg: #000000;
   --bg2: #404040;
   --fg: #fff;
   --fg2: #b0b0b0;

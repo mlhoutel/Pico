@@ -27,7 +27,7 @@ class Player {
     this.time += dt
     if (!this.lock_camera) {
       this.rotation.y = (this.mouse.x / window.innerWidth) * Math.PI
-      this.rotation.x = this.mouse.y / window.innerHeight - 0.5
+      this.rotation.x = this.mouse.y / window.innerHeight
     }
 
     if (!this.lock_move) {
