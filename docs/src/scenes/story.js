@@ -58,7 +58,6 @@ class Story {
 
       let faces = []
       for (let j = 0; j < model.faces.length; j++) {
-        console.log(i + ' ' + j)
         for (let k = 2; k < model.faces[j].indices.length; k++) {
           faces.push([model.faces[j].indices[0], model.faces[j].indices[k - 1], model.faces[j].indices[k]])
         }
@@ -68,8 +67,6 @@ class Story {
         faces: faces,
       })
 
-      // console.log(verts, faces)
-      console.log(bodyPart)
       const offset = new Vec3(model.position[0], model.position[2], model.position[1]) // x z y
 
       body.addShape(bodyPart, offset)

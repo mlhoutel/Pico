@@ -3,7 +3,7 @@ import vec3 from './maths.js'
 const SPEED = 5
 const JUMP = 20
 const MAX_SPEED = 15
-const FRICTION = 1
+const FRICTION = 1.7
 const DAMPING = 0.15
 const DSPEED = 14
 const KEY_UP = 'KeyW'
@@ -14,7 +14,7 @@ const KEY_JUMP = 'Space'
 
 class Player {
   constructor(position = new vec3(), rotation = new vec3(), velocity = new vec3()) {
-    this.size = 1.7
+    this.size = 1
     this.position = new vec3(position.x, position.y - this.size / 2, position.z)
     this.camera = new vec3(position.x - this.size / 2, position.y - this.size / 2, position.z - this.size / 2)
     this.dampwalk = 0
@@ -42,24 +42,22 @@ class Player {
     // this.velocity = new vec3(-rot_y * this.avelocity.x + rot_x * this.avelocity.y, -this.avelocity.z, -rot_y * this.avelocity.y - rot_x * this.avelocity.x)
 
     // ACCELERATION
-    if (!this.lock_move) {
-      if (this.can_jump) {
-        if (this.keys[KEY_UP]) {
-          this.velocity.y += SPEED
-        }
-        if (this.keys[KEY_DOWN]) {
-          this.velocity.y -= SPEED
-        }
-        if (this.keys[KEY_LEFT]) {
-          this.velocity.x += SPEED
-        }
-        if (this.keys[KEY_RIGHT]) {
-          this.velocity.x -= SPEED
-        }
-        if (this.keys[KEY_JUMP]) {
-          this.velocity.z -= JUMP
-          this.can_jump = false
-        }
+    if (this.can_jump) {
+      if (this.keys[KEY_UP]) {
+        this.velocity.y += SPEED
+      }
+      if (this.keys[KEY_DOWN]) {
+        this.velocity.y -= SPEED
+      }
+      if (this.keys[KEY_LEFT]) {
+        this.velocity.x += SPEED
+      }
+      if (this.keys[KEY_RIGHT]) {
+        this.velocity.x -= SPEED
+      }
+      if (this.keys[KEY_JUMP]) {
+        this.velocity.z -= JUMP
+        this.can_jump = false
       }
     }
 
@@ -87,13 +85,18 @@ class Player {
       this.velocity.z = -JUMP
     }
 
+    if (this.lock_move) {
+      this.velocity.x = 0
+      this.velocity.y = 0
+    }
+
     this.avelocity = new vec3(rot_y * this.velocity.x - rot_x * this.velocity.y, this.velocity.z, rot_y * this.velocity.y + rot_x * this.velocity.x)
 
     if (Math.abs(this.velocity.x) + Math.abs(this.velocity.y) > 0.3 || Math.abs(this.dampwalk) > DAMPING / 2) {
       this.dampwalk = DAMPING * Math.cos(this.time * DSPEED)
     }
 
-    this.camera = new vec3(this.position.x + this.size / 2, this.position.y - this.size / 2 - this.dampwalk, this.position.z + this.size / 2)
+    this.camera = new vec3(this.position.x, this.position.y - this.size / 2 - this.dampwalk, this.position.z)
 
     /*
     this.position.x += this.avelocity.x

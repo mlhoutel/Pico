@@ -5,9 +5,6 @@ export default function (ctx) {
     name: 's001_intro',
     states: { duration: 5 },
     initialize: function () {
-      ctx.player.lock_move = true
-      ctx.player.lock_camera = true
-
       ctx.draw.addText('main_title', 'P. I. C. O.', new vec3(0.5, 0.5), true, 20, 'white', 'center', 'middle', true)
 
       const now = new Date()
@@ -15,9 +12,12 @@ export default function (ctx) {
 
       ctx.draw.background = `rgba(0, 0, 0, 0)`
 
-      ctx.setupScene(ctx.getPathModel('test.txt'))
+      ctx.setupScene(ctx.getPathModel('vehicles2.txt'))
 
       ctx.world.getBodyById(0).position.y = -20
+
+      ctx.player.lock_move = true
+      ctx.player.lock_camera = true
     },
     update: function (dt) {
       if (this.states.timer > this.states.duration) {

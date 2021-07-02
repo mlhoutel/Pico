@@ -6,7 +6,8 @@ import Player from './player.js'
 import Draw from './draw.js'
 import Story from './scenes/story.js'
 
-const RESOLUTION = 6
+const RESOLUTION = 6 // pixel resolution
+const MAX_DT = 0.3 // avoid physic strange behaviours
 
 class Pico {
   constructor(canvas, stage) {
@@ -31,6 +32,8 @@ class Pico {
     this.draw = new Draw(this.stage)
     this.world = new World({ gravity: new Vec3(0, 0, 60) })
     this.player = new Player()
+
+    this.world.solver.iterations = 10
 
     // Manage materials
     const defaultMaterial = new Material('defaultMaterial')
@@ -66,7 +69,7 @@ class Pico {
         contactNormal.copy(contact.ni) // bi is something else. Keep the normal as it is
       }
 
-      if (contactNormal.dot(upAxis) > 0.5) {
+      if (contactNormal.dot(upAxis) > 0.1) {
         self.player.can_jump = true // If contactNormal.dot(upAxis) is between 0 and 1, we know that the contact normal is somewhat in the up direction.
       }
     })
@@ -115,6 +118,8 @@ class Pico {
 
   _initialize_loop() {
     this.viewer.startDrawLoop((dt) => {
+      if (dt > MAX_DT) dt = MAX_DT
+
       this.time += dt
 
       if (this.time - this.refresh > this.interval) {
@@ -127,6 +132,7 @@ class Pico {
       this.story.Update(dt)
 
       this.world.getBodyById(0).velocity.set(this.player.avelocity.x, this.player.avelocity.z, this.player.avelocity.y)
+
       this.world.step(dt)
 
       const pos = this.world.getBodyById(0).position
@@ -134,9 +140,8 @@ class Pico {
 
       this.player.position = new vec3(pos.x, pos.z, pos.y)
       this.player.velocity.z = vel.z
-      this.player.Update(dt)
 
-      //console.log(this.world.getBodyById(0))
+      this.player.Update(dt)
 
       this._draw_canvas()
       this._draw_stage()
