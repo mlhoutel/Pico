@@ -1,26 +1,32 @@
 import vec3 from './maths.js'
 
-const SPEED = 0.05
-const MAX_SPEED = 0.2
-const FRICTION = 0.02
-const SIZE = 1.7
+const SPEED = 5
+const JUMP = 20
+const MAX_SPEED = 15
+const FRICTION = 1
 const DAMPING = 0.15
 const DSPEED = 14
 const KEY_UP = 'KeyW'
 const KEY_DOWN = 'KeyS'
 const KEY_LEFT = 'KeyA'
 const KEY_RIGHT = 'KeyD'
+const KEY_JUMP = 'Space'
 
 class Player {
-  constructor(position = new vec3(0, -SIZE, 0), rotation = new vec3(), velocity = new vec3()) {
-    this.position = position
+  constructor(position = new vec3(), rotation = new vec3(), velocity = new vec3()) {
+    this.size = 1.7
+    this.position = new vec3(position.x, position.y - this.size / 2, position.z)
+    this.camera = new vec3(position.x - this.size / 2, position.y - this.size / 2, position.z - this.size / 2)
+    this.dampwalk = 0
     this.rotation = rotation
     this.velocity = velocity
+    this.avelocity = velocity
     this.mouse = new vec3()
     this.keys = {}
     this.time = 0
     this.lock_move = false
     this.lock_camera = false
+    this.can_jump = false
   }
 
   Update(dt) {
@@ -30,29 +36,42 @@ class Player {
       this.rotation.x = this.mouse.y / window.innerHeight
     }
 
+    const rot_x = Math.sin(this.rotation.y)
+    const rot_y = Math.cos(this.rotation.y)
+
+    // this.velocity = new vec3(-rot_y * this.avelocity.x + rot_x * this.avelocity.y, -this.avelocity.z, -rot_y * this.avelocity.y - rot_x * this.avelocity.x)
+
+    // ACCELERATION
     if (!this.lock_move) {
-      if (this.keys[KEY_UP]) {
-        // ACCELERATION
-        this.velocity.y += SPEED
-      }
-      if (this.keys[KEY_DOWN]) {
-        this.velocity.y -= SPEED
-      }
-      if (this.keys[KEY_LEFT]) {
-        this.velocity.x += SPEED
-      }
-      if (this.keys[KEY_RIGHT]) {
-        this.velocity.x -= SPEED
+      if (this.can_jump) {
+        if (this.keys[KEY_UP]) {
+          this.velocity.y += SPEED
+        }
+        if (this.keys[KEY_DOWN]) {
+          this.velocity.y -= SPEED
+        }
+        if (this.keys[KEY_LEFT]) {
+          this.velocity.x += SPEED
+        }
+        if (this.keys[KEY_RIGHT]) {
+          this.velocity.x -= SPEED
+        }
+        if (this.keys[KEY_JUMP]) {
+          this.velocity.z -= JUMP
+          this.can_jump = false
+        }
       }
     }
 
     // FRICTION
-    if (Math.abs(this.velocity.x) > 0) {
-      this.velocity.x = Math.sign(this.velocity.x) * Math.max(0, Math.abs(this.velocity.x) - FRICTION)
-    }
+    if (this.can_jump) {
+      if (Math.abs(this.velocity.x) > 0) {
+        this.velocity.x = Math.sign(this.velocity.x) * Math.max(0, Math.abs(this.velocity.x) - FRICTION)
+      }
 
-    if (Math.abs(this.velocity.y) > 0) {
-      this.velocity.y = Math.sign(this.velocity.y) * Math.max(0, Math.abs(this.velocity.y) - FRICTION)
+      if (Math.abs(this.velocity.y) > 0) {
+        this.velocity.y = Math.sign(this.velocity.y) * Math.max(0, Math.abs(this.velocity.y) - FRICTION)
+      }
     }
 
     // LIMITATION
@@ -64,15 +83,22 @@ class Player {
       this.velocity.y = Math.sign(this.velocity.y) * MAX_SPEED
     }
 
-    const rot_x = Math.sin(this.rotation.y)
-    const rot_z = Math.cos(this.rotation.y)
-
-    this.position.x += rot_z * this.velocity.x - rot_x * this.velocity.y
-    this.position.z += rot_z * this.velocity.y + rot_x * this.velocity.x
-
-    if (Math.abs(this.velocity.x) + Math.abs(this.velocity.y) > 0 || Math.abs(this.position.y) - Math.abs(SIZE) > DAMPING / 2) {
-      this.position.y = -SIZE + DAMPING * Math.cos(this.time * DSPEED)
+    if (this.velocity.z < -JUMP) {
+      this.velocity.z = -JUMP
     }
+
+    this.avelocity = new vec3(rot_y * this.velocity.x - rot_x * this.velocity.y, this.velocity.z, rot_y * this.velocity.y + rot_x * this.velocity.x)
+
+    if (Math.abs(this.velocity.x) + Math.abs(this.velocity.y) > 0.3 || Math.abs(this.dampwalk) > DAMPING / 2) {
+      this.dampwalk = DAMPING * Math.cos(this.time * DSPEED)
+    }
+
+    this.camera = new vec3(this.position.x + this.size / 2, this.position.y - this.size / 2 - this.dampwalk, this.position.z + this.size / 2)
+
+    /*
+    this.position.x += this.avelocity.x
+    this.position.z += this.avelocity.z
+    */
   }
 
   handleEvent = function (e) {

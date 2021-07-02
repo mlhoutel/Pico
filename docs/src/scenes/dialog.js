@@ -2,7 +2,7 @@ import vec3 from '../maths.js'
 
 const FONT_SIZE = 12
 const SIDE_SPACE = 40
-const POS_X = 0.5
+const POS_X = 0.02
 const POS_Y = 0.9
 
 class Dialog {
@@ -66,7 +66,18 @@ class Dialog {
         text = text.substring(0, Math.floor(text.length * this.states.text))
         const lines = []
         while (text.length > 0) {
-          const nbchar_space = Math.min(Math.floor((draw.stage.width - SIDE_SPACE * 2) / FONT_SIZE), text.length)
+          let nbchar_space = text.length
+          const availlable_space = Math.floor((draw.stage.width - SIDE_SPACE * 2) / FONT_SIZE)
+          if (nbchar_space > availlable_space) {
+            nbchar_space = availlable_space
+            const current_line = text.substring(0, nbchar_space)
+            const space_index = current_line.lastIndexOf(' ')
+
+            if (space_index != -1) {
+              nbchar_space = space_index
+            }
+          }
+
           lines.push(text.substring(0, nbchar_space))
           text = text.substring(nbchar_space + 1)
         }
@@ -75,7 +86,7 @@ class Dialog {
         for (let i = 0; i < this.states.lines; i++) {
           const font_rel = FONT_SIZE / draw.stage.height
           const pos_y = POS_Y - (this.states.lines / 2) * font_rel + i * font_rel
-          draw.addText(`${this.name}_dialog_${i}`, lines[i], new vec3(POS_X, pos_y), true, FONT_SIZE, 'white', 'center', 'middle', true)
+          draw.addText(`${this.name}_dialog_${i}`, lines[i], new vec3(POS_X, pos_y), true, FONT_SIZE, 'white', 'left', 'middle', true)
         }
       }
 

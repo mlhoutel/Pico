@@ -15,8 +15,9 @@ export default function (ctx) {
 
       ctx.draw.background = `rgba(0, 0, 0, 0)`
 
-      ctx.viewer.load(ctx.getPathModel('vehicles2.txt'))
-      ctx.player.position.z = -10
+      ctx.setupScene(ctx.getPathModel('test.txt'))
+
+      ctx.world.getBodyById(0).position.y = -20
     },
     update: function (dt) {
       if (this.states.timer > this.states.duration) {
@@ -24,12 +25,12 @@ export default function (ctx) {
       }
 
       const shade = this.states.timer / this.states.duration
-      const toggle = 0.95
+      const toggle = 0.85
       const relative = (shade - toggle) / (1 - toggle)
 
       if (ctx.draw.stage.getContext) {
         let c = ctx.draw.stage.getContext('2d')
-        c.fillStyle = 'rgba(1, 1, 1, 1)' // shade < toggle ? 'rgba(1, 1, 1, 1)' : `rgba(1, 1, 1, ${1 - relative})`
+        c.fillStyle = shade < toggle ? 'rgba(1, 1, 1, 1)' : `rgba(1, 1, 1, ${1 - relative})`
         c.beginPath()
         const ray = (ctx.draw.stage.width / 2) * (Math.exp(this.states.timer * 3 - 10) / 50)
         c.arc(ctx.draw.stage.width / 2, ctx.draw.stage.height / 2, ray, 0, 2 * Math.PI)

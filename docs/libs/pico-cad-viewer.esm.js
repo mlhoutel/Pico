@@ -508,15 +508,35 @@ class PicoCADModelObject {
    * @param {string} name
    * @param {number[]} position
    * @param {number[]} rotation
+   * @param {number[]} scale
    * @param {number[][]} vertices Array of triplets of 3D vertices.
    * @param {PicoCADModelFace[]} faces
    */
-  constructor(name, position, rotation, vertices, faces) {
+  constructor(name, position, rotation, scale, vertices, faces) {
     this.name = name
     this.position = position
     this.rotation = rotation
+    this.scale = scale
+
     /** Array of triplets of 3D vertices. */
-    this.vertices = vertices
+
+    let srvertices = []
+    for (let i = 0; i < vertices.length; i++) {
+      const vec = create()
+
+      // Scale
+      set(vec, vertices[i][0] * scale[0], vertices[i][1] * scale[1], vertices[i][2] * scale[2])
+
+      // Rotate
+      const zero$1 = zero(create())
+      rotateX(vec, vec, zero$1, this.rotation[0])
+      rotateY(vec, vec, zero$1, this.rotation[1])
+      rotateZ(vec, vec, zero$1, this.rotation[2])
+
+      srvertices.push(vec)
+    }
+
+    this.vertices = srvertices
     this.faces = faces
   }
 }
@@ -1308,6 +1328,7 @@ function parseLuaData(lua) {
     const name = luaObject.dict.name
     const pos = luaObject.dict.pos.array
     const rot = luaObject.dict.rot.array
+    const sca = luaObject.dict.sca ? luaObject.dict.sca.array : [1, 1, 1]
 
     const vertices = luaObject.dict.v.array.map((la) => la.array)
 
@@ -1329,7 +1350,7 @@ function parseLuaData(lua) {
       })
     })
 
-    return new PicoCADModelObject(name, pos, rot, vertices, faces)
+    return new PicoCADModelObject(name, pos, rot, sca, vertices, faces)
   })
 }
 
