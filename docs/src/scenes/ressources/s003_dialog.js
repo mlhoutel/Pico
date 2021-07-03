@@ -22,7 +22,10 @@ export default function (ctx) {
         position: (time) => {
           return new vec3(time * 100, 1)
         },
-        dialog: { text: 'texte texte texte texte texte texte texte texte texte', time: 10 },
+        dialog: {
+          text: 'texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte texte',
+          time: 30,
+        },
       },
     ],
     ctx.viewer,

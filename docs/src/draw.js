@@ -119,7 +119,6 @@ class Draw {
       ctx.fillRect(0, 0, this.stage.width, this.stage.height)
 
       ctx.webkitImageSmoothingEnabled = false
-      ctx.mozImageSmoothingEnabled = false
       ctx.imageSmoothingEnabled = false
 
       for (let i = 0; i < this.sprites.length; i++) {
